@@ -28,7 +28,7 @@ static void do_something(int connfd) {
     }
     fprintf(stderr, "client says: %s\n", rbuf);
 
-    char wbuf[] = "world";
+    char wbuf[] = "Sanika";
     write(connfd, wbuf, strlen(wbuf));
 }
 

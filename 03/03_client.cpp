@@ -30,7 +30,7 @@ int main() {
         die("connect");
     }
 
-    char msg[] = "hello"; // send "hello" to server
+    char msg[] = "lessgo"; // send "lessgo" to server
     write(fd, msg, strlen(msg)); // send message to server
 
     char rbuf[64] = {}; // buffer to receive message from server

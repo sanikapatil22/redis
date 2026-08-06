@@ -14,6 +14,30 @@
 #include <netinet/ip.h>
 // C++
 #include <vector>
+static Conn *handle_accept(int fd) {
+    // accept
+    struct sockaddr_in client_addr = {};
+    socklen_t addrlen = sizeof(client_addr);
+    int connfd = accept(fd, (struct sockaddr *)&client_addr, &addrlen);
+    if (connfd < 0) {
+        msg_errno("accept() error");
+        return NULL;
+    }
+    uint32_t ip = client_addr.sin_addr.s_addr;
+    fprintf(stderr, "new client from %u.%u.%u.%u:%u\n",
+        ip & 255, (ip >> 8) & 255, (ip >> 16) & 255, ip >> 24,
+        ntohs(client_addr.sin_port)
+    );
+
+    // set the new connection fd to nonblocking mode
+    fd_set_nb(connfd);
+
+    // create a `struct Conn`
+    Conn *conn = new Conn();
+    conn->fd = connfd;
+    conn->want_read = true;
+    return conn;
+}
 
 
 int main() {

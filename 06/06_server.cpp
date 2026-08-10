@@ -14,6 +14,16 @@
 #include <netinet/ip.h>
 // C++
 #include <vector>
+static void
+buf_append(std::vector<uint8_t> &buf, const uint8_t *data, size_t len) {
+    buf.insert(buf.end(), data, data + len);
+}
+
+// remove from the front
+static void buf_consume(std::vector<uint8_t> &buf, size_t n) {
+    buf.erase(buf.begin(), buf.begin() + n);
+}
+
 static Conn *handle_accept(int fd) {
     // accept
     struct sockaddr_in client_addr = {};
